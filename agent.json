@@ -1,0 +1,17 @@
+{
+  "name": "db-ops-devops",
+  "assetType": "custom_agent",
+  "status": "ACTIVE",
+  "systemPromptFile": "SYSTEM_PROMPT.md",
+  "tools": [
+    "use_aws",
+    "list_resources",
+    "list_resource_details",
+    "query_cloudwatch_logs",
+    "get_account_cloudformation_stacks",
+    "trusted_advisor_list_recommendations",
+    "create_or_update_artifact"
+  ],
+  "skills": [],
+  "memoryStores": []
+}

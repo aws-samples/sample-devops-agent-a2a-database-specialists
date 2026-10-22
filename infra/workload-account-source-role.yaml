@@ -1,0 +1,42 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Workload-account role that lets one AWS DevOps Agent Agent Space in a separate
+  operations account read this account's telemetry (CloudWatch, CloudTrail,
+  EC2, RDS) through the AWS-managed AIDevOpsAgentAccessPolicy. Deploy in the
+  account that holds the databases, then associate it with the Agent Space as a
+  source account.
+
+Parameters:
+  OperationsAccountId:
+    Type: String
+    AllowedPattern: '^[0-9]{12}$'
+  AgentSpaceId:
+    Type: String
+    AllowedPattern: '^[0-9a-f-]{36}$'
+
+Resources:
+  AgentSpaceSourceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /service-role/
+      Description: Read access for one DevOps Agent Agent Space in the operations account.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: aidevops.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref OperationsAccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:aidevops:${AWS::Region}:${OperationsAccountId}:agentspace/${AgentSpaceId}'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AIDevOpsAgentAccessPolicy
+
+Outputs:
+  AgentSpaceSourceRoleArn:
+    Value: !GetAtt AgentSpaceSourceRole.Arn

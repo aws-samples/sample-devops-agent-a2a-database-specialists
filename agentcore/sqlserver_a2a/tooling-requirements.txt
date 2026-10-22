@@ -1,0 +1,2 @@
+# Deployment CLI used by deploy.sh. Install in a dedicated tooling venv.
+bedrock-agentcore-starter-toolkit==0.3.9

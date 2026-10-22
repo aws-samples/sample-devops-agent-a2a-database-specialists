@@ -1,0 +1,6 @@
+{
+  "name": "sqlserver-db-troubleshooter",
+  "serviceType": "remoteagentsigv4",
+  "description": "Read-only troubleshooting for self-managed SQL Server on Amazon EC2, delegated to the AI-DB-OPS SQL Server specialist on AgentCore Runtime.",
+  "signingService": "bedrock-agentcore"
+}

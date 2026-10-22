@@ -1,0 +1,7 @@
+# Direct dependencies for the Oracle A2A protocol adapter.
+bedrock-agentcore[a2a]==1.19.0
+boto3==1.43.73
+
+# Explicit constraints aligned with the AI-DB-OPS public release.
+aiohttp==3.14.1
+python-multipart==0.0.32

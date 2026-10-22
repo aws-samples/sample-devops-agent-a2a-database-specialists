@@ -1,0 +1,149 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Least-privilege IAM roles for the SQL Server A2A adapter. Deploy first with the
+  runtime name prefix, then update A2ARuntimeArn to the exact deployed ARN.
+
+Parameters:
+  DownstreamSqlServerRuntimeArn:
+    Type: String
+    Description: AI-DB-OPS dbops_sqlserver_readonly AgentCore runtime ARN (DBOPS_READ_ONLY_MODE=true).
+    AllowedPattern: '^arn:(aws|aws-us-gov|aws-cn):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:runtime/dbops_sqlserver_readonly-[A-Za-z0-9]+$'
+  A2ARuntimeNamePrefix:
+    Type: String
+    Default: sqlserver_db_troubleshooter_a2a
+    AllowedPattern: '^[A-Za-z][A-Za-z0-9_]{0,47}$'
+    Description: Name prefix used to bootstrap the AgentCore A2A runtime.
+  A2ARuntimeArn:
+    Type: String
+    Default: ''
+    AllowedPattern: '^$|^arn:(aws|aws-us-gov|aws-cn):bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:runtime/sqlserver_db_troubleshooter_a2a-[A-Za-z0-9]+$'
+    Description: Exact A2A runtime ARN. Supply this in a stack update after deployment.
+
+Conditions:
+  HasExactA2ARuntimeArn: !Not [!Equals [!Ref A2ARuntimeArn, '']]
+
+Resources:
+  SqlServerA2ARuntimeRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Invokes only the configured SQL Server runtime and writes adapter telemetry.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AgentCoreRuntimeAssumeRole
+            Effect: Allow
+            Principal:
+              Service: bedrock-agentcore.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !If
+                  - HasExactA2ARuntimeArn
+                  - !Ref A2ARuntimeArn
+                  - !Sub 'arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:runtime/${A2ARuntimeNamePrefix}-*'
+      Policies:
+        - PolicyName: InvokeConfiguredSqlServerRuntime
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: InvokeSqlServerRuntime
+                Effect: Allow
+                Action: bedrock-agentcore:InvokeAgentRuntime
+                # InvokeAgentRuntime authorizes against the runtime-endpoint
+                # sub-resource when a qualifier is supplied. The adapter pins
+                # qualifier=DEFAULT, so both ARN forms are required.
+                Resource:
+                  - !Ref DownstreamSqlServerRuntimeArn
+                  - !Sub '${DownstreamSqlServerRuntimeArn}/runtime-endpoint/DEFAULT'
+        - PolicyName: AgentCoreRuntimeTelemetry
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: CreateAndDescribeAdapterLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:DescribeLogStreams
+                Resource: !Sub 'arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/${A2ARuntimeNamePrefix}-*'
+              - Sid: DiscoverLogGroups
+                Effect: Allow
+                Action: logs:DescribeLogGroups
+                Resource: '*'
+              - Sid: WriteAdapterLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub 'arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/bedrock-agentcore/runtimes/${A2ARuntimeNamePrefix}-*:log-stream:*'
+              - Sid: ManageRuntimeLogDeliveryPolicy
+                Effect: Allow
+                Action: logs:PutResourcePolicy
+                Resource: '*'
+              - Sid: WriteRuntimeTraces
+                Effect: Allow
+                Action:
+                  - xray:PutTraceSegments
+                  - xray:PutTelemetryRecords
+                  - xray:GetSamplingRules
+                  - xray:GetSamplingTargets
+                Resource: '*'
+              - Sid: WriteRuntimeMetrics
+                Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: '*'
+                Condition:
+                  StringEquals:
+                    cloudwatch:namespace: bedrock-agentcore
+
+  DevOpsAgentA2AInvocationRole:
+    Type: AWS::IAM::Role
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Allows AWS DevOps Agent to invoke only the SQL Server A2A runtime.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DevOpsAgentAssumeRole
+            Effect: Allow
+            Principal:
+              Service: aidevops.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:${AWS::Partition}:aidevops:${AWS::Region}:${AWS::AccountId}:service/*'
+      Policies:
+        - PolicyName: InvokeSqlServerA2ARuntime
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: InvokeSqlServerA2AOnly
+                Effect: Allow
+                Action: bedrock-agentcore:InvokeAgentRuntime
+                # Covers the bare runtime ARN and the runtime-endpoint
+                # sub-resource that IAM evaluates when a qualifier is sent.
+                Resource: !If
+                  - HasExactA2ARuntimeArn
+                  - - !Ref A2ARuntimeArn
+                    - !Sub '${A2ARuntimeArn}/runtime-endpoint/*'
+                  - - !Sub 'arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:runtime/${A2ARuntimeNamePrefix}-*'
+                    - !Sub 'arn:${AWS::Partition}:bedrock-agentcore:${AWS::Region}:${AWS::AccountId}:runtime/${A2ARuntimeNamePrefix}-*/runtime-endpoint/*'
+
+Outputs:
+  SqlServerA2ARuntimeRoleArn:
+    Description: Pass this role to AgentCore when configuring the A2A runtime.
+    Value: !GetAtt SqlServerA2ARuntimeRole.Arn
+  DevOpsAgentA2AInvocationRoleArn:
+    Description: Use this role when registering the SigV4 remote agent.
+    Value: !GetAtt DevOpsAgentA2AInvocationRole.Arn
+  ExactRuntimeScopeApplied:
+    Description: True after the stack is updated with the exact A2A runtime ARN.
+    Value: !If [HasExactA2ARuntimeArn, 'true', 'false']

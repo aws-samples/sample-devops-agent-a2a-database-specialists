@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 860" width="1600" height="860" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#232F3E"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#E07B00"/></marker>
+    <style>
+      .hd{stroke-width:1.6}
+      .ht{font-size:16px;font-weight:700;fill:#161E2D}
+      .hs{font-size:12.5px;fill:#5F6B7A}
+      .life{stroke:#AAB7B8;stroke-width:1.5;stroke-dasharray:6 5}
+      .m{stroke:#232F3E;stroke-width:1.8;fill:none}
+      .r{stroke:#5F6B7A;stroke-width:1.6;fill:none;stroke-dasharray:6 4}
+      .o{stroke:#E07B00;stroke-width:2.6;fill:none}
+      .lt{font-size:14px;fill:#161E2D}
+      .lb{font-size:14px;font-weight:700;fill:#161E2D}
+      .lo{font-size:14px;font-weight:700;fill:#C45500}
+      .notep{fill:#F3EDFF;stroke:#7B3FE4;stroke-width:1.6}
+      .lg{font-size:13px;font-weight:700;fill:#232F3E}
+      .noteb{fill:#EAF4FA;stroke:#146EB4;stroke-width:1.4}
+      .n{font-size:12px;font-weight:700;fill:#FFFFFF}
+    </style>
+  </defs>
+
+  <!-- Participants -->
+  <rect x="40" y="20" width="140" height="62" rx="9" fill="#F3F4F6" stroke="#AAB7B8" class="hd"/>
+  <text x="110" y="48" text-anchor="middle" class="ht">Operator</text>
+  <text x="110" y="68" text-anchor="middle" class="hs">or alarm trigger</text>
+
+  <rect x="270" y="20" width="180" height="62" rx="9" fill="#EAF4FA" stroke="#146EB4" class="hd"/>
+  <text x="360" y="48" text-anchor="middle" class="ht">AWS DevOps Agent</text>
+  <text x="360" y="68" text-anchor="middle" class="hs">db-ops-devops agent</text>
+
+  <rect x="525" y="20" width="170" height="62" rx="9" fill="#EAF4FA" stroke="#146EB4" class="hd"/>
+  <text x="610" y="48" text-anchor="middle" class="ht">AWS APIs</text>
+  <text x="610" y="68" text-anchor="middle" class="hs">CloudWatch · CloudTrail</text>
+
+  <rect x="785" y="20" width="190" height="62" rx="9" fill="#F3EDFF" stroke="#7B3FE4" class="hd" stroke-width="2.4"/>
+  <text x="880" y="48" text-anchor="middle" class="ht">A2A adapter</text>
+  <text x="880" y="68" text-anchor="middle" class="hs">AgentCore Runtime</text>
+
+  <rect x="1055" y="20" width="190" height="62" rx="9" fill="#F3EDFF" stroke="#7B3FE4" class="hd" stroke-width="2.4"/>
+  <text x="1150" y="48" text-anchor="middle" class="ht">Read-only specialist</text>
+  <text x="1150" y="68" text-anchor="middle" class="hs">AgentCore Runtime · VPC</text>
+
+  <rect x="1345" y="20" width="170" height="62" rx="9" fill="#EAF7E5" stroke="#1D8102" class="hd"/>
+  <text x="1430" y="48" text-anchor="middle" class="ht">Database</text>
+  <text x="1430" y="68" text-anchor="middle" class="hs">SQL Server or Oracle</text>
+
+  <!-- Lifelines -->
+  <line x1="110" y1="82" x2="110" y2="712" class="life"/>
+  <line x1="360" y1="82" x2="360" y2="712" class="life"/>
+  <line x1="610" y1="82" x2="610" y2="712" class="life"/>
+  <line x1="880" y1="82" x2="880" y2="712" class="life"/>
+  <line x1="1150" y1="82" x2="1150" y2="712" class="life"/>
+  <line x1="1430" y1="82" x2="1430" y2="712" class="life"/>
+
+  <!-- 1 -->
+  <path d="M110,122 L356,122" class="m" marker-end="url(#ar)"/>
+  <text x="235" y="113" text-anchor="middle" class="lt">Orders queries are hanging</text>
+  <!-- 2 -->
+  <path d="M360,166 L606,166" class="m" marker-end="url(#ar)"/>
+  <text x="485" y="157" text-anchor="middle" class="lt">Instance, metrics, recent changes</text>
+  <!-- 3 -->
+  <path d="M610,210 L364,210" class="r" marker-end="url(#ar)"/>
+  <text x="485" y="201" text-anchor="middle" class="lt">Host idle; no CPU or I/O pressure</text>
+  <!-- 4 -->
+  <rect x="190" y="230" width="340" height="40" rx="7" class="noteb"/>
+  <text x="360" y="256" text-anchor="middle" class="lb">Needs engine-internal evidence: delegate</text>
+  <!-- 5 -->
+  <path d="M360,302 L876,302" class="o" marker-end="url(#ao)"/>
+  <text x="618" y="292" text-anchor="middle" class="lo">A2A message/send, SigV4: { host, intent: blocking_sessions }</text>
+  <!-- 6 -->
+  <rect x="700" y="322" width="360" height="40" rx="7" class="notep"/>
+  <text x="880" y="348" text-anchor="middle" class="lb">Check schema, intent and scope; reject the rest</text>
+  <!-- 7 -->
+  <path d="M880,394 L1146,394" class="m" marker-end="url(#ar)"/>
+  <text x="1015" y="385" text-anchor="middle" class="lt">InvokeAgentRuntime, fixed target</text>
+  <!-- 8 -->
+  <path d="M1150,438 L1426,438" class="m" marker-end="url(#ar)"/>
+  <text x="1290" y="429" text-anchor="middle" class="lt">Read-only diagnostic queries</text>
+  <!-- 9 -->
+  <path d="M1430,482 L1154,482" class="r" marker-end="url(#ar)"/>
+  <text x="1290" y="473" text-anchor="middle" class="lt">Sessions, waits, lock chain</text>
+  <!-- 10 -->
+  <path d="M1150,526 L884,526" class="r" marker-end="url(#ar)"/>
+  <text x="1015" y="517" text-anchor="middle" class="lt">Findings as fixed-schema JSON</text>
+  <!-- 11 -->
+  <rect x="700" y="546" width="360" height="40" rx="7" class="notep"/>
+  <text x="880" y="572" text-anchor="middle" class="lb">Validate; redact SQL text, literals and IDs</text>
+  <!-- 12 -->
+  <path d="M880,618 L364,618" class="o" stroke-dasharray="7 4" marker-end="url(#ao)"/>
+  <text x="618" y="608" text-anchor="middle" class="lo">A2A response: diagnosis and evidence</text>
+  <!-- 13 -->
+  <path d="M360,662 L114,662" class="r" marker-end="url(#ar)"/>
+  <text x="235" y="653" text-anchor="middle" class="lt">Root cause and next step</text>
+  <rect x="140" y="676" width="190" height="30" rx="6" class="noteb"/>
+  <text x="235" y="696" text-anchor="middle" font-size="13" font-weight="700" fill="#146EB4">Operator approves any fix</text>
+
+  <!-- Step numbers -->
+  <g>
+    <circle cx="20" cy="122" r="12" fill="#232F3E"/><text x="20" y="126" text-anchor="middle" class="n">1</text>
+    <circle cx="20" cy="166" r="12" fill="#232F3E"/><text x="20" y="170" text-anchor="middle" class="n">2</text>
+    <circle cx="20" cy="210" r="12" fill="#232F3E"/><text x="20" y="214" text-anchor="middle" class="n">3</text>
+    <circle cx="20" cy="250" r="12" fill="#232F3E"/><text x="20" y="254" text-anchor="middle" class="n">4</text>
+    <circle cx="20" cy="302" r="12" fill="#E07B00"/><text x="20" y="306" text-anchor="middle" class="n">5</text>
+    <circle cx="20" cy="342" r="12" fill="#232F3E"/><text x="20" y="346" text-anchor="middle" class="n">6</text>
+    <circle cx="20" cy="394" r="12" fill="#232F3E"/><text x="20" y="398" text-anchor="middle" class="n">7</text>
+    <circle cx="20" cy="438" r="12" fill="#232F3E"/><text x="20" y="442" text-anchor="middle" class="n">8</text>
+    <circle cx="20" cy="482" r="12" fill="#232F3E"/><text x="20" y="486" text-anchor="middle" class="n">9</text>
+    <circle cx="20" cy="526" r="12" fill="#232F3E"/><text x="20" y="530" text-anchor="middle" class="n">10</text>
+    <circle cx="20" cy="566" r="12" fill="#232F3E"/><text x="20" y="570" text-anchor="middle" class="n">11</text>
+    <circle cx="20" cy="618" r="12" fill="#E07B00"/><text x="20" y="622" text-anchor="middle" class="n">12</text>
+    <circle cx="20" cy="662" r="12" fill="#232F3E"/><text x="20" y="666" text-anchor="middle" class="n">13</text>
+  </g>
+
+  <!-- Timing bracket -->
+  <path d="M1548,302 L1562,302 L1562,618 L1548,618" fill="none" stroke="#5F6B7A" stroke-width="1.6"/>
+  <text x="1582" y="460" text-anchor="middle" font-size="14" font-weight="700" fill="#5F6B7A" transform="rotate(90 1582 460)">about 30 to 45 seconds</text>
+
+  <!-- Legend -->
+  <rect x="760" y="716" width="28" height="18" rx="4" fill="#F3EDFF" stroke="#7B3FE4" stroke-width="2"/>
+  <text x="796" y="730" class="lg">Custom build (our code)</text>
+  <rect x="990" y="716" width="28" height="18" rx="4" fill="#EAF4FA" stroke="#146EB4" stroke-width="1.6"/>
+  <text x="1026" y="730" class="lg">AWS native, configured only</text>
+  <rect x="1250" y="716" width="28" height="18" rx="4" fill="#EAF7E5" stroke="#1D8102" stroke-width="1.6"/>
+  <text x="1286" y="730" class="lg">Customer database</text>
+
+  <!-- Footer -->
+  <rect x="20" y="740" width="1560" height="100" rx="10" fill="#232F3E"/>
+  <text x="44" y="772" font-size="15" font-weight="700" fill="#FF9900">Before the first request</text>
+  <text x="44" y="798" font-size="14" fill="#FFFFFF">At registration, DevOps Agent fetches each adapter's Agent Card, which advertises one read-only skill and its request schema.</text>
+  <text x="44" y="824" font-size="14" fill="#D5DBDB">Steps 5 and 12 are the only cross-account hop. Nothing on this path can change the database; any fix is proposed to the operator.</text>
+</svg>

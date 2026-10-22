@@ -1,0 +1,34 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Demo only. Lets scripts run on the SQL Server demo host through SSM read the
+  host's own connection secret, so demo/sqlserver_blocking.sh can log in to
+  SQL Server without the password leaving the instance. Attached to the
+  existing instance role as a separate stack so the stack that owns the host
+  (and its instance) is not updated. Delete this stack after the demo.
+
+Parameters:
+  InstanceRoleName:
+    Type: String
+    AllowedPattern: '^[\w+=,.@-]{1,64}$'
+    Description: Instance role of the SQL Server demo host.
+  SqlServerSecretArn:
+    Type: String
+    AllowedPattern: '^arn:aws:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[A-Za-z0-9/_+=.@-]+$'
+    Description: The demo host's own connection secret.
+
+Resources:
+  ReadOwnConnectionSecret:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: demo-read-own-connection-secret
+      Roles:
+        - !Ref InstanceRoleName
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ReadOwnConnectionSecret
+            Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource: !Ref SqlServerSecretArn

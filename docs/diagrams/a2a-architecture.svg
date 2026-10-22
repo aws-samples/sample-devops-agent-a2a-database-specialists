@@ -1,0 +1,198 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -50 1600 930" width="1600" height="930" font-family="Helvetica Neue, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#232F3E"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#E07B00"/></marker>
+    <style>
+      .grp{fill:#FFFFFF;stroke:#5F6B7A;stroke-width:1.5;stroke-dasharray:7 5}
+      .ctr{fill:#F7F9FB;stroke:#AAB7B8;stroke-width:1.2}
+      .box{fill:#EAF4FA;stroke:#146EB4;stroke-width:1.6}
+      .cus{fill:#F3EDFF;stroke:#7B3FE4;stroke-width:2.4}
+      .lg{font-size:14px;font-weight:700;fill:#232F3E}
+      .db{fill:#EAF7E5;stroke:#1D8102;stroke-width:1.6}
+      .sup{fill:#F3F4F6;stroke:#AAB7B8;stroke-width:1.2}
+      .gl{font-size:17px;font-weight:700;fill:#232F3E}
+      .cl{font-size:14px;font-weight:700;fill:#5F6B7A}
+      .t{font-size:16px;font-weight:700;fill:#161E2D}
+      .s{font-size:13.5px;fill:#31465A}
+      .e{font-size:13px;font-weight:700;fill:#C45500}
+      .ln{stroke:#232F3E;stroke-width:1.8;fill:none}
+      .lo{stroke:#E07B00;stroke-width:2.6;fill:none}
+      .badge{fill:#232F3E}
+      .bt{font-size:13px;font-weight:700;fill:#FFFFFF}
+      .ct{font-size:13.5px;fill:#161E2D}
+      .cb{font-size:13.5px;font-weight:700;fill:#161E2D}
+    </style>
+  </defs>
+
+  <!-- Legend -->
+  <rect x="20" y="-40" width="1560" height="44" rx="8" fill="#FFFFFF" stroke="#D5DBDB" stroke-width="1.2"/>
+  <text x="40" y="-12" class="lg">Legend</text>
+  <rect x="120" y="-29" width="34" height="22" rx="5" class="cus"/>
+  <text x="164" y="-12" class="lg">Custom build: our code, deployed on Amazon Bedrock AgentCore Runtime</text>
+  <rect x="740" y="-29" width="34" height="22" rx="5" class="box"/>
+  <text x="784" y="-12" class="lg">AWS native service or feature, configured only</text>
+  <rect x="1170" y="-29" width="34" height="22" rx="5" class="db"/>
+  <text x="1214" y="-12" class="lg">Customer databases</text>
+  <rect x="1380" y="-29" width="34" height="22" rx="5" class="sup"/>
+  <text x="1424" y="-12" class="lg">IAM and controls</text>
+
+  <!-- Operator -->
+  <rect x="20" y="89" width="112" height="120" rx="10" class="sup"/>
+  <circle cx="76" cy="122" r="15" fill="#5F6B7A"/>
+  <path d="M50,167 q26,-30 52,0 z" fill="#5F6B7A"/>
+  <text x="76" y="193" text-anchor="middle" class="t">Operator</text>
+
+  <!-- Operations account -->
+  <rect x="160" y="30" width="540" height="690" rx="14" class="grp"/>
+  <text x="182" y="60" class="gl">Operations account</text>
+  <rect x="180" y="76" width="500" height="628" rx="10" class="ctr"/>
+  <text x="198" y="100" class="cl">AWS DevOps Agent · Agent Space</text>
+
+  <rect x="198" y="116" width="464" height="66" rx="9" class="box"/>
+  <text x="430" y="144" text-anchor="middle" class="t">Web app · chat · investigations</text>
+  <text x="430" y="166" text-anchor="middle" class="s">One question from the operator, or an alarm-triggered investigation</text>
+  <path d="M430,182 L430,212" class="ln" marker-end="url(#ar)"/>
+
+  <rect x="198" y="214" width="464" height="92" rx="9" class="box"/>
+  <text x="430" y="243" text-anchor="middle" class="t">db-ops-devops custom agent</text>
+  <text x="430" y="265" text-anchor="middle" class="s">Correlates AWS evidence first, then decides whether the</text>
+  <text x="430" y="285" text-anchor="middle" class="s">question needs engine-internal evidence from a specialist</text>
+  <path d="M320,306 L320,346" class="ln" marker-end="url(#ar)"/>
+  <path d="M540,306 L540,346" class="ln" marker-end="url(#ar)"/>
+
+  <rect x="198" y="348" width="226" height="150" rx="9" class="box"/>
+  <text x="311" y="376" text-anchor="middle" class="t">Built-in AWS evidence</text>
+  <text x="311" y="402" text-anchor="middle" class="s">Amazon CloudWatch</text>
+  <text x="311" y="424" text-anchor="middle" class="s">AWS CloudTrail</text>
+  <text x="311" y="446" text-anchor="middle" class="s">RDS and EC2 describe</text>
+  <text x="311" y="468" text-anchor="middle" class="s">CloudFormation state</text>
+
+  <rect x="436" y="348" width="226" height="150" rx="9" class="box"/>
+  <text x="549" y="376" text-anchor="middle" class="t">Remote agents (A2A)</text>
+  <text x="549" y="402" text-anchor="middle" class="s">oracle-db-troubleshooter</text>
+  <text x="549" y="424" text-anchor="middle" class="s">sqlserver-db-troubleshooter</text>
+  <text x="549" y="452" text-anchor="middle" class="e">Agent Card discovery</text>
+  <text x="549" y="472" text-anchor="middle" class="e">read-only skills only</text>
+  <path d="M549,498 L549,536" class="ln" marker-end="url(#ar)"/>
+
+  <rect x="436" y="538" width="226" height="148" rx="9" class="sup"/>
+  <text x="549" y="566" text-anchor="middle" class="t">Invocation role</text>
+  <text x="549" y="590" text-anchor="middle" class="s">Trusted by DevOps Agent only,</text>
+  <text x="549" y="610" text-anchor="middle" class="s">for this Agent Space</text>
+  <text x="549" y="636" text-anchor="middle" class="s">InvokeAgentRuntime on</text>
+  <text x="549" y="656" text-anchor="middle" class="s">the two adapters only</text>
+
+  <rect x="198" y="538" width="226" height="148" rx="9" class="sup"/>
+  <text x="311" y="566" text-anchor="middle" class="t">Human approval</text>
+  <text x="311" y="590" text-anchor="middle" class="s">Any change is proposed to</text>
+  <text x="311" y="610" text-anchor="middle" class="s">the operator. The A2A path</text>
+  <text x="311" y="630" text-anchor="middle" class="s">can recommend a change</text>
+  <text x="311" y="650" text-anchor="middle" class="s">but cannot make one.</text>
+
+  <!-- Cross-account hop -->
+  <text x="730" y="455" text-anchor="middle" class="e">A2A</text>
+  <text x="730" y="473" text-anchor="middle" class="e">HTTPS</text>
+  <text x="730" y="491" text-anchor="middle" class="e">SigV4</text>
+
+  <!-- Workload account -->
+  <rect x="760" y="30" width="820" height="690" rx="14" class="grp"/>
+  <text x="782" y="60" class="gl">Database workload account</text>
+
+  <rect x="780" y="76" width="530" height="440" rx="10" class="ctr"/>
+  <text x="798" y="100" class="cl">Amazon Bedrock AgentCore Runtime</text>
+
+  <rect x="800" y="140" width="226" height="102" rx="9" class="cus"/>
+  <text x="913" y="168" text-anchor="middle" class="t">Oracle A2A adapter</text>
+  <text x="913" y="192" text-anchor="middle" class="s">Strict JSON request schema</text>
+  <text x="913" y="212" text-anchor="middle" class="s">Scope: one DB instance</text>
+  <text x="913" y="232" text-anchor="middle" class="s">Redacts the response</text>
+
+  <rect x="800" y="338" width="226" height="102" rx="9" class="cus"/>
+  <text x="913" y="366" text-anchor="middle" class="t">SQL Server A2A adapter</text>
+  <text x="913" y="390" text-anchor="middle" class="s">Strict JSON request schema</text>
+  <text x="913" y="410" text-anchor="middle" class="s">Scope: one EC2 host</text>
+  <text x="913" y="430" text-anchor="middle" class="s">Redacts the response</text>
+
+  <path d="M1026,191 L1064,191" class="ln" marker-end="url(#ar)"/>
+  <path d="M1026,389 L1064,389" class="ln" marker-end="url(#ar)"/>
+  <text x="1045" y="282" text-anchor="middle" class="s">InvokeAgentRuntime</text>
+  <text x="1045" y="300" text-anchor="middle" class="s">fixed target</text>
+
+  <rect x="1066" y="140" width="226" height="102" rx="9" class="cus"/>
+  <text x="1179" y="168" text-anchor="middle" class="t">Oracle specialist</text>
+  <text x="1179" y="192" text-anchor="middle" class="s">Read-only mode</text>
+  <text x="1179" y="212" text-anchor="middle" class="s">17 diagnostic tools</text>
+  <text x="1179" y="232" text-anchor="middle" class="s">Runs inside the VPC</text>
+
+  <rect x="1066" y="338" width="226" height="102" rx="9" class="cus"/>
+  <text x="1179" y="366" text-anchor="middle" class="t">SQL Server specialist</text>
+  <text x="1179" y="390" text-anchor="middle" class="s">Read-only mode</text>
+  <text x="1179" y="410" text-anchor="middle" class="s">20 diagnostic tools</text>
+  <text x="1179" y="430" text-anchor="middle" class="s">Runs inside the VPC</text>
+
+  <text x="1045" y="480" text-anchor="middle" class="s">Resource policy on each adapter: callable only by the invocation role</text>
+
+  <path d="M1292,191 L1338,191" class="ln" marker-end="url(#ar)"/>
+  <path d="M1292,389 L1338,389" class="ln" marker-end="url(#ar)"/>
+
+  <rect x="1340" y="140" width="222" height="102" rx="9" class="db"/>
+  <text x="1451" y="170" text-anchor="middle" class="t">Amazon RDS</text>
+  <text x="1451" y="190" text-anchor="middle" class="t">for Oracle</text>
+  <text x="1451" y="214" text-anchor="middle" class="s">TCPS 2484</text>
+  <text x="1451" y="232" text-anchor="middle" class="s">certificate verified</text>
+
+  <rect x="1340" y="338" width="222" height="102" rx="9" class="db"/>
+  <text x="1451" y="368" text-anchor="middle" class="t">SQL Server 2022</text>
+  <text x="1451" y="388" text-anchor="middle" class="t">on Amazon EC2</text>
+  <text x="1451" y="412" text-anchor="middle" class="s">TDS 1433, encrypted</text>
+  <text x="1451" y="430" text-anchor="middle" class="s">read-only queries</text>
+
+  <rect x="800" y="548" width="236" height="140" rx="9" class="sup"/>
+  <text x="918" y="576" text-anchor="middle" class="t">AWS Secrets Manager</text>
+  <text x="918" y="602" text-anchor="middle" class="s">One connection secret</text>
+  <text x="918" y="622" text-anchor="middle" class="s">per engine. Credentials</text>
+  <text x="918" y="642" text-anchor="middle" class="s">never appear in a request</text>
+  <text x="918" y="662" text-anchor="middle" class="s">or a response.</text>
+
+  <rect x="1056" y="548" width="236" height="140" rx="9" class="sup"/>
+  <text x="1174" y="576" text-anchor="middle" class="t">CloudWatch · RDS · EC2</text>
+  <text x="1174" y="602" text-anchor="middle" class="s">Describe and Get calls,</text>
+  <text x="1174" y="622" text-anchor="middle" class="s">pinned to the one</text>
+  <text x="1174" y="642" text-anchor="middle" class="s">configured instance</text>
+
+  <rect x="1312" y="548" width="250" height="140" rx="9" class="sup"/>
+  <text x="1437" y="576" text-anchor="middle" class="t">Execution roles</text>
+  <text x="1437" y="602" text-anchor="middle" class="s">Describe and Get only.</text>
+  <text x="1437" y="622" text-anchor="middle" class="s">No Create, Modify or</text>
+  <text x="1437" y="642" text-anchor="middle" class="s">Delete permissions.</text>
+
+  <!-- Connectors drawn last so the account groups do not cover them -->
+  <path d="M132,149 L196,149" class="ln" marker-end="url(#ar)"/>
+  <path d="M662,410 L742,410 L742,191 L798,191" class="lo" marker-end="url(#ao)"/>
+  <path d="M742,410 L742,389 L798,389" class="lo" marker-end="url(#ao)"/>
+
+  <!-- Controls band -->
+  <rect x="20" y="748" width="1560" height="112" rx="10" fill="#232F3E"/>
+  <text x="44" y="780" font-size="15" font-weight="700" fill="#FF9900">Controls at every hop</text>
+  <g>
+    <circle cx="56" cy="818" r="13" fill="#FF9900"/><text x="56" y="823" text-anchor="middle" font-size="13" font-weight="700" style="fill:#232F3E">1</text>
+    <text x="78" y="814" font-size="14" font-weight="700" fill="#FFFFFF">Identity</text>
+    <text x="78" y="836" font-size="13" fill="#D5DBDB">SigV4; one trusted role</text>
+
+    <circle cx="372" cy="818" r="13" fill="#FF9900"/><text x="372" y="823" text-anchor="middle" font-size="13" font-weight="700" style="fill:#232F3E">2</text>
+    <text x="394" y="814" font-size="14" font-weight="700" fill="#FFFFFF">Input</text>
+    <text x="394" y="836" font-size="13" fill="#D5DBDB">Schema, intent and scope checked</text>
+
+    <circle cx="688" cy="818" r="13" fill="#FF9900"/><text x="688" y="823" text-anchor="middle" font-size="13" font-weight="700" style="fill:#232F3E">3</text>
+    <text x="710" y="814" font-size="14" font-weight="700" fill="#FFFFFF">Capability</text>
+    <text x="710" y="836" font-size="13" fill="#D5DBDB">No tool that changes anything is loaded</text>
+
+    <circle cx="1004" cy="818" r="13" fill="#FF9900"/><text x="1004" y="823" text-anchor="middle" font-size="13" font-weight="700" style="fill:#232F3E">4</text>
+    <text x="1026" y="814" font-size="14" font-weight="700" fill="#FFFFFF">AWS access</text>
+    <text x="1026" y="836" font-size="13" fill="#D5DBDB">Describe and Get only, one instance</text>
+
+    <circle cx="1320" cy="818" r="13" fill="#FF9900"/><text x="1320" y="823" text-anchor="middle" font-size="13" font-weight="700" style="fill:#232F3E">5</text>
+    <text x="1342" y="814" font-size="14" font-weight="700" fill="#FFFFFF">Output</text>
+    <text x="1342" y="836" font-size="13" fill="#D5DBDB">Fixed schema; SQL and IDs redacted</text>
+  </g>
+</svg>

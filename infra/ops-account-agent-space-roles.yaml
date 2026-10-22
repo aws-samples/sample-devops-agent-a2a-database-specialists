@@ -1,0 +1,103 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >-
+  Operations-account roles for an AWS DevOps Agent Agent Space that delegates
+  database diagnostics to AgentCore A2A adapters in a separate workload account:
+  the Agent Space monitor role, the web app role, and the remote-agent
+  invocation role. The invocation role can call only the two named adapter
+  runtimes; each adapter also needs a resource policy in the workload account
+  that allows this role.
+
+Parameters:
+  AgentSpaceId:
+    Type: String
+    AllowedPattern: '^[0-9a-f-]{36}$'
+  OracleA2ARuntimeArn:
+    Type: String
+    AllowedPattern: '^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:runtime/oracle_db_troubleshooter_a2a-[A-Za-z0-9]+$'
+  SqlServerA2ARuntimeArn:
+    Type: String
+    AllowedPattern: '^arn:aws:bedrock-agentcore:[a-z0-9-]+:[0-9]{12}:runtime/sqlserver_db_troubleshooter_a2a-[A-Za-z0-9]+$'
+
+Resources:
+  AgentSpaceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /service-role/
+      Description: DevOps Agent monitor role for this account.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: aidevops.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:aidevops:${AWS::Region}:${AWS::AccountId}:agentspace/${AgentSpaceId}'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AIDevOpsAgentAccessPolicy
+
+  WebAppRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Path: /service-role/
+      Description: DevOps Agent web app role (IAM auth flow).
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: aidevops.amazonaws.com
+            Action:
+              - sts:AssumeRole
+              - sts:TagSession
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnEquals:
+                aws:SourceArn: !Sub 'arn:aws:aidevops:${AWS::Region}:${AWS::AccountId}:agentspace/${AgentSpaceId}'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AIDevOpsOperatorAppAccessPolicy
+
+  RemoteAgentInvocationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Signs DevOps Agent remote-agent calls to the two read-only A2A adapters.
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: aidevops.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+              ArnLike:
+                aws:SourceArn: !Sub 'arn:aws:aidevops:${AWS::Region}:${AWS::AccountId}:service/*'
+      Policies:
+        - PolicyName: invoke-two-read-only-adapters
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - bedrock-agentcore:InvokeAgentRuntime
+                  - bedrock-agentcore:GetAgentCard
+                Resource:
+                  - !Ref OracleA2ARuntimeArn
+                  - !Sub '${OracleA2ARuntimeArn}/runtime-endpoint/DEFAULT'
+                  - !Ref SqlServerA2ARuntimeArn
+                  - !Sub '${SqlServerA2ARuntimeArn}/runtime-endpoint/DEFAULT'
+
+Outputs:
+  AgentSpaceRoleArn:
+    Value: !GetAtt AgentSpaceRole.Arn
+  WebAppRoleArn:
+    Value: !GetAtt WebAppRole.Arn
+  RemoteAgentInvocationRoleArn:
+    Value: !GetAtt RemoteAgentInvocationRole.Arn

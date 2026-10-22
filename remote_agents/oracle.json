@@ -1,0 +1,6 @@
+{
+  "name": "oracle-db-troubleshooter",
+  "serviceType": "remoteagentsigv4",
+  "description": "Read-only RDS for Oracle troubleshooting delegated to the AI-DB-OPS Oracle specialist on AgentCore Runtime.",
+  "signingService": "bedrock-agentcore"
+}
