@@ -58,9 +58,10 @@ def environment(tmp_path: Path) -> dict[str, str]:
 
 
 def test_deploy_script_is_plan_only_and_account_bound(tmp_path):
-    # Runs the repository's own deploy.sh (fixed path, no shell) in plan mode.
-    result = subprocess.run(  # nosec B603  # nosemgrep: python.lang.security.audit.dangerous-subprocess-use-audit
-        [str(SCRIPT)],
+    # Runs the repository's own deploy.sh in plan mode: a fixed relative path
+    # inside SCRIPT.parent, with no shell.
+    result = subprocess.run(  # nosec B603
+        ["./deploy.sh"],
         cwd=SCRIPT.parent,
         env=environment(tmp_path),
         capture_output=True,
@@ -80,9 +81,10 @@ def test_deploy_script_rejects_mismatched_target_account(tmp_path):
     env = environment(tmp_path)
     env["EXPECTED_AWS_ACCOUNT_ID"] = "999999999999"
 
-    # Runs the repository's own deploy.sh (fixed path, no shell) in plan mode.
-    result = subprocess.run(  # nosec B603  # nosemgrep: python.lang.security.audit.dangerous-subprocess-use-audit
-        [str(SCRIPT)],
+    # Runs the repository's own deploy.sh in plan mode: a fixed relative path
+    # inside SCRIPT.parent, with no shell.
+    result = subprocess.run(  # nosec B603
+        ["./deploy.sh"],
         cwd=SCRIPT.parent,
         env=env,
         capture_output=True,
