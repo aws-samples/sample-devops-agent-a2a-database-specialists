@@ -79,21 +79,24 @@ Resources:
                 aws:SourceAccount: !Ref AWS::AccountId
               ArnLike:
                 aws:SourceArn: !Sub 'arn:aws:aidevops:${AWS::Region}:${AWS::AccountId}:service/*'
-      Policies:
-        - PolicyName: invoke-two-read-only-adapters
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - bedrock-agentcore:InvokeAgentRuntime
-                  - bedrock-agentcore:GetAgentCard
-                Resource:
-                  - !Ref OracleA2ARuntimeArn
-                  - !Sub '${OracleA2ARuntimeArn}/runtime-endpoint/DEFAULT'
-                  - !Ref SqlServerA2ARuntimeArn
-                  - !Sub '${SqlServerA2ARuntimeArn}/runtime-endpoint/DEFAULT'
-
+  RemoteAgentInvocationPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: invoke-two-read-only-adapters for RemoteAgentInvocationRole.
+      Roles:
+        - !Ref RemoteAgentInvocationRole
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - bedrock-agentcore:InvokeAgentRuntime
+              - bedrock-agentcore:GetAgentCard
+            Resource:
+              - !Ref OracleA2ARuntimeArn
+              - !Sub '${OracleA2ARuntimeArn}/runtime-endpoint/DEFAULT'
+              - !Ref SqlServerA2ARuntimeArn
+              - !Sub '${SqlServerA2ARuntimeArn}/runtime-endpoint/DEFAULT'
 Outputs:
   AgentSpaceRoleArn:
     Value: !GetAtt AgentSpaceRole.Arn

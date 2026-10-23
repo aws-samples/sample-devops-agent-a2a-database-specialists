@@ -64,7 +64,8 @@ def signed_request(
     for key, value in request.headers.items():
         http_request.add_header(key, value)
     try:
-        with urllib.request.urlopen(http_request, timeout=timeout) as response:  # nosec B310 # noqa: S310 - https AgentCore host checked above
+        # The scheme and host were checked above: https to the AgentCore endpoint only.
+        with urllib.request.urlopen(http_request, timeout=timeout) as response:  # nosec B310 # noqa: S310 # nosemgrep
             return response.status, response.read().decode("utf-8", "replace")
     except urllib.error.HTTPError as error:
         return error.code, error.read().decode("utf-8", "replace")

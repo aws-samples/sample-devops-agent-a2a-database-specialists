@@ -201,7 +201,7 @@ def test_rejects_request_for_unmapped_oracle_instance():
         request(time_range_minutes=1),
         request(region="us-west-2"),
         request(aws_evidence={"UnapprovedMetric": 1}),
-        request(password="do-not-forward"),
+        request(password="do-not-forward"),  # nosec B106 - sentinel the adapter must reject
         request(incident_reference="token=do-not-forward"),
     ],
 )
